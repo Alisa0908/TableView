@@ -10,7 +10,7 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var taskArray: [String] = []
-    let userDefaults = UserDefaults.standard
+
     
     // 画面内に表示する名前を入れています。
         var names: [String] = [
@@ -66,7 +66,7 @@ class TableViewController: UITableViewController {
        if editingStyle == UITableViewCell.EditingStyle.delete {
            taskArray.remove(at: indexPath.row) //配列の削除
            userDefaults.set(taskArray, forKey: "add") //配列の保存
-           tableView.deleteRows(at: [indexPath as IndexPath], with: UITableView.RowAnimation.automatic) //表示の消去
+           tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic) //表示の消去
            
        }
    }
