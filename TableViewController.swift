@@ -10,7 +10,7 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var taskArray: [String] = []
-
+    let userDefaults = UserDefaults.standard
     
     // 画面内に表示する名前を入れています。
         var names: [String] = [
@@ -30,7 +30,6 @@ class TableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let userDefaults = UserDefaults.standard
         
         //なにも保存されていない場合は読み込まない
         if userDefaults.object(forKey: "add") != nil {
