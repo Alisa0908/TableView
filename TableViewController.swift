@@ -10,6 +10,7 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var taskArray: [String] = []
+    let userDefaults = UserDefaults.standard
     
     // 画面内に表示する名前を入れています。
         var names: [String] = [
@@ -21,22 +22,14 @@ class TableViewController: UITableViewController {
             "梶原",
             "菊池",
             "工藤",
-            "松尾",
         ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let userDefaults = UserDefaults.standard
         
         //なにも保存されていない場合は読み込まない
         if userDefaults.object(forKey: "add") != nil {
@@ -56,22 +49,26 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        // 今回はセクションは1つのみなので、namesの要素数をそのまま使います。
-        // "変数名.count"で要素数を取得できます。
         return taskArray.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // セルのオブジェクトを作成します。
-        // "NameCell" の部分はStoryboardでセルに設定したIdentifierを指定しています。
         let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell", for: indexPath)
-        // namesから該当する行の文字列を取得してセルに設定します。
-        // indexPath.rowで何行目かがわかります。
         cell.textLabel?.text = taskArray[indexPath.row]
 
         return cell
     }
+    
+    
+   // リストの削除機能
+   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+       if editingStyle == UITableViewCell.EditingStyle.delete {
+           taskArray.remove(at: indexPath.row) //配列の削除
+           userDefaults.set(taskArray, forKey: "add") //配列の保存
+           tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic) //表示の消去
+           
+       }
+   }
 
     /*
     // Override to support conditional editing of the table view.
